@@ -2,7 +2,7 @@
 
 > Симулятор управления психиатрической клиникой
 
-**Автор игры:** Панченко М. А.  
+**Автор игры:** Eva Craft
 **По вопросам игры:** mercury.nosov@gmail.com  
 **Ссылка на игру:** https://panchevo.github.io/Psychiatrist/
 
@@ -495,7 +495,7 @@
 
 ## 📞 Контакты
 
-- **Автор:** Панченко М. А.
+- **Автор:** Eva Craft
 - **Email:** mercury.nosov@gmail.com
 - **Игра онлайн:** https://panchevo.github.io/Psychiatrist/
 
