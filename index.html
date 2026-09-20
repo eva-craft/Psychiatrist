@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <link rel="icon" href="icon.ico">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -1123,7 +1125,97 @@ body{  cursor: url('cur.png') 0 12, auto !important;}
         </div>
     </div>
 
-    <script>
+    <script>// Создание или изменение meta-тега viewport
+const viewport = document.querySelector('meta[name="viewport"]');
+if (viewport) {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+} else {
+    const meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    document.head.appendChild(meta);
+}
+
+// Запрет мультитач-жестов
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// Запрет жестов масштабирования
+document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('gesturechange', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('gestureend', function(e) {
+    e.preventDefault();
+});
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, { passive: false });
+
+document.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// Блокировка Ctrl + "+" / "-" / "0"
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0' || 
+        e.key === '=' || e.keyCode === 187 || e.keyCode === 189 || e.keyCode === 48)) {
+        e.preventDefault();
+    }
+});
+
+(function preventZoom() {
+    // Meta-тег
+    const meta = document.querySelector('meta[name="viewport"]') || document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    if (!meta.parentNode) document.head.appendChild(meta);
+
+    // Pinch-zoom
+    document.addEventListener('touchstart', e => {
+        if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+
+    // Safari gestures
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt => {
+        document.addEventListener(evt, e => e.preventDefault());
+    });
+
+    // Double-tap
+    let lastTouch = 0;
+    document.addEventListener('touchend', e => {
+        const now = Date.now();
+        if (now - lastTouch <= 300) e.preventDefault();
+        lastTouch = now;
+    }, { passive: false });
+
+    // Ctrl + wheel (desktop)
+    document.addEventListener('wheel', e => {
+        if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+
+    // Ctrl + / - / 0
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+})();
         (function() {
 
             // === ДИАЛОГОВОЕ ОКНО (замена alert/confirm) ===
@@ -5079,22 +5171,22 @@ if (!gameOver && gameActive && currentLevel && !isPaused) {
                         sleepingPatients.forEach(function(p) {
                             let healSpeed = 0.03;
                             if (isNight()) {
-                                healSpeed *= 1.8;
+                                healSpeed *= 0.05;
                             }
                             if (isDay()) {
-                                healSpeed *= 0.5;
+                                healSpeed *= 0.03;
                             }
                             
                             // === БОНУС ОТ ВРАЧА (Фрейд) ===
                             const sleepBoost = getSleepBoost();
                             if (sleepBoost > 0) {
-                                healSpeed *= (1 + sleepBoost);
+                                healSpeed *= (0.03 + sleepBoost);
                             }
                             
                             if (techEffects.physicalTherapy) {
-                                healSpeed *= (1 + techEffects.physicalTherapy);
+                                healSpeed *= (0.03 + techEffects.physicalTherapy);
                             }
-                            const nurseBonus = 1 + getNurseBonus() * 0.5;
+                            const nurseBonus = 0.03 + getNurseBonus() * 0.5;
                             healSpeed *= nurseBonus;
                             p.health = Math.min(100, p.health + healSpeed);
                         });
