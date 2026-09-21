@@ -5161,8 +5161,8 @@ if (!gameOver && gameActive && currentLevel && !isPaused) {
                         
                         if (levelIndex !== -1) {
                             const maxIndex = LEVELS.length - 1;
-                            const minSpeed = 0.0005;
-                            const maxSpeed = 0.0100;
+                            const minSpeed = 0.005;
+                            const maxSpeed = 0.05;
                             baseSpeed = minSpeed + (levelIndex / maxIndex) * (maxSpeed - minSpeed);
                         }
                         
