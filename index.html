@@ -1433,8 +1433,7 @@ let nextRestockTime = 0;
         'depression': 30,    // Депрессии — основной фокус
         'neurosis': 25,      // Неврозы — тоже часто
         'psychosomatic': 15, // Психосоматика — реже
-        'sexual': 10         // Сексуальные расстройства — редко
-        // Убираем anxiety, schizophrenia и другие категории
+      
     },
     fightChance: 0.001,      // Минимальный шанс драк
     spawnInterval: 15,       // Медленное появление пациентов
@@ -2190,7 +2189,11 @@ function getDiseasesForAvailableDrugs(availableDrugs, count, categoryFilter) {
 
             function getDiseasesWithWeights(availableDrugs, count, categoryFilter, categoryWeights) {
   const levelName = currentLevel ? currentLevel.id : '';
-    
+    const forbiddenCategories = {
+        'bechtereva': ['sexual'],  // На первом уровне нет сексуальных расстройств
+
+    };
+    const forbidden = forbiddenCategories[levelName] || [];
     if (levelName === 'sosnovy_bor') {
         // Возвращаем только три указанные болезни
         const specificDiseases = ALL_DISEASES.filter(d => 
@@ -2201,6 +2204,8 @@ function getDiseasesForAvailableDrugs(availableDrugs, count, categoryFilter) {
     }
     // 1. Собираем все подходящие болезни
     let candidates = ALL_DISEASES.filter(function(disease) {
+ if (forbidden.includes(disease.category)) return false;
+        
         var hasDrug = disease.treat.some(function(drug) {
             return availableDrugs.includes(drug);
         });
@@ -3309,24 +3314,44 @@ let levelScore = 0;  // ← ДОБАВИТЬ ЭТУ СТРОКУ
             }
 
             function getRandomDisease(gender) {
-                let candidates = [];
-                if (!availableDiseases || availableDiseases.length === 0) {
-                    candidates = ALL_DISEASES.filter(d => d.gender === 'neutral' || d.gender === gender);
-                } else {
-                    candidates = availableDiseases.filter(d => d.gender === 'neutral' || d.gender === gender);
-                }
-                if (candidates.length === 0) {
-                    candidates = availableDiseases.length > 0 ? availableDiseases : ALL_DISEASES.filter(d => d.gender === 'neutral');
-                }
-                const totalWeight = candidates.reduce((s, d) => s + d.weight, 0);
-                let rand = Math.random() * totalWeight;
-                for (let d of candidates) {
-                    rand -= d.weight;
-                    if (rand <= 0) return { ...d };
-                }
-                return { ...candidates[0] };
-            }
-
+    // 1. Сначала пытаемся взять из доступных болезней уровня
+    let pool = (availableDiseases && availableDiseases.length > 0) 
+        ? availableDiseases 
+        : ALL_DISEASES;
+    
+    // 2. Жёстко фильтруем по полу: neutral ИЛИ совпадает с полом пациента
+    let candidates = pool.filter(d => 
+        d.gender === 'neutral' || d.gender === gender
+    );
+    
+    // 3. Если для этого пола нет болезней в пуле уровня — 
+    //    ищем среди ВСЕХ болезней (но всё равно строго по полу!)
+    if (candidates.length === 0) {
+        candidates = ALL_DISEASES.filter(d => 
+            d.gender === 'neutral' || d.gender === gender
+        );
+    }
+    
+    // 4. Если и там пусто (такого быть не должно, но на всякий случай) —
+    //    берём только нейтральные
+    if (candidates.length === 0) {
+        candidates = ALL_DISEASES.filter(d => d.gender === 'neutral');
+    }
+    
+    // 5. Если совсем ничего нет — fallback (не должно случиться)
+    if (candidates.length === 0) {
+        return { ...ALL_DISEASES[0] };
+    }
+    
+    // 6. Взвешенный случайный выбор
+    const totalWeight = candidates.reduce((s, d) => s + d.weight, 0);
+    let rand = Math.random() * totalWeight;
+    for (let d of candidates) {
+        rand -= d.weight;
+        if (rand <= 0) return { ...d };
+    }
+    return { ...candidates[0] };
+}
             function isNight() { return (timeOfDay > 2100 || timeOfDay < 300); }
             function isEvening() { return (timeOfDay >= 1800 && timeOfDay <= 2100); }
             function isMorning() { return (timeOfDay >= 300 && timeOfDay < 600); }
