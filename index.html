@@ -155,28 +155,54 @@ button:focus,
             border-radius: 4px;
         }
         /* Убираем скролл у всех остальных блоков */
-        * {
-            scrollbar-width: none !important;
-        }
-        *::-webkit-scrollbar {
-            display: none !important;
-        }
-        /* Но для модалок с прокруткой возвращаем */
-        .scrollable-modal * {
-            scrollbar-width: thin !important;
-        }
-        .scrollable-modal *::-webkit-scrollbar {
-            display: block !important;
-        }
-        .scrollable-modal .book-content,
-        .scrollable-modal .tech-tree-content,
-        .scrollable-modal .info-content,
-        .scrollable-modal .menu-content,
-        .scrollable-modal .sel-container {
-            max-height: 80vh;
-            overflow-y: auto;
-        }
+       /* Убираем скролл у всех остальных блоков */
+* {
+    scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+    display: none;
+}
 
+/* === ВИДИМАЯ ПОЛОСА ПРОКРУТКИ ДЛЯ ЭКРАНОВ ВЫБОРА === */
+.sel-container {
+    scrollbar-width: thin !important;
+    scrollbar-color: #8a7a5a #b09a7a !important;
+    overflow-y: auto !important;
+}
+
+.sel-container::-webkit-scrollbar {
+    display: block !important;
+    width: 12px !important;
+}
+
+.sel-container::-webkit-scrollbar-track {
+    background: #b09a7a !important;
+    border-radius: 6px !important;
+    border: 1px solid #8a7a5a !important;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.2) !important;
+}
+
+.sel-container::-webkit-scrollbar-thumb {
+    background: #6a5a42 !important;
+    border-radius: 6px !important;
+    border: 2px solid #8a7a5a !important;
+    box-shadow: inset 0 0 4px rgba(255,220,180,0.3) !important;
+    min-height: 40px;
+}
+
+.sel-container::-webkit-scrollbar-thumb:hover {
+    background: #4a3a2a !important;
+    border-color: #6a5a42 !important;
+}
+
+.sel-container::-webkit-scrollbar-thumb:active {
+    background: #2d2417 !important;
+}
+
+/* Уголок между полосами (если появится) */
+.sel-container::-webkit-scrollbar-corner {
+    background: #b09a7a !important;
+}
         /* === НОВЫЙ КРУГЛЫЙ ИНДИКАТОР ВРЕМЕНИ === */
         .time-indicator-circle {
             width: 36px;
@@ -914,6 +940,67 @@ div{  cursor: url('cur.png') 0 12, auto !important;}
 
 body{  cursor: url('cur.png') 0 12, auto !important;}
 
+
+/* Стили для дисклеймера */
+
+
+
+
+.disclaimer-note {
+    background: #e1cfb6;                          /* Как у карточек врачей */
+    border-bottom: 5px solid #8a7a5a;             /* Толстая нижняя обводка как у .sel-card */
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 0 auto 20px auto;
+    max-width: 750px;
+   
+    color: #2d2417;
+    text-align: center;
+    font-family: 'Georgia', serif;
+    box-shadow: inset 0 0 0 2px #dac9b0, 0 4px 0 #6a5a42;  /* Внутренняя светлая рамка + внешняя тень */
+    transition: 0.15s;
+font-size:1.3em;
+    color: #5a4a32;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.disclaimer-note {
+
+
+
+
+@media (max-width: 700px) {
+    .sel-container {
+        max-height: 95vh !important;
+        padding: 16px !important;
+    }
+    .sel-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+        gap: 8px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -923,12 +1010,20 @@ body{  cursor: url('cur.png') 0 12, auto !important;}
             <div id="selectionScreen">
                 <div class="sel-container">
                     <!-- STEP 1: Psychiatrist -->
-                    <div class="sel-step active" id="stepPsych">
-                        <div class="sel-title">⚜️ ВЫБОР ПСИХИАТРА</div>
-                        <div class="sel-sub">Нажмите на врача, чьими знаниями вы будете руководить.</div>
-                        <div class="sel-grid" id="psychGrid"></div>
-                        <div class="sel-hint">Нажмите на карточку врача, чтобы выбрать</div>
-                    </div>
+                  <!-- STEP 1: Psychiatrist -->
+<div class="sel-step active" id="stepPsych">
+    <div class="sel-title">⚜️ ВЫБОР ПСИХИАТРА</div>
+    <div class="sel-sub">Нажмите на врача, чьими знаниями вы будете руководить.</div>
+    
+    <!-- НАЧАЛО: ДИСКЛЕЙМЕР -->
+    <div class="disclaimer-note">
+        <strong>⚠️ Важное уведомление:</strong> Все лекарственные препараты, их свойства и эффекты, показанные в игре, являются <strong>вымышленными</strong> и используются исключительно в художественных целях. Игра не является медицинским руководством.
+    </div>
+    <!-- КОНЕЦ: ДИСКЛЕЙМЕР -->
+
+    <div class="sel-grid" id="psychGrid"></div>
+    <div class="sel-hint">Нажмите на карточку врача, чтобы выбрать</div>
+</div>
 
                     <!-- STEP 2: Level -->
                     <div class="sel-step" id="stepLevel">
@@ -1033,10 +1128,12 @@ body{  cursor: url('cur.png') 0 12, auto !important;}
                     <div style="font-size:1.1rem; line-height:1.8; color:#2d2417;">
                         <p><strong>Автор:</strong> Eva Craft.</p>
                         <p><strong>Email:</strong> <a href="mailto:mercury.nosov@gmail.com" style="color:#4a3a2a;">mercury.nosov@gmail.com</a></p>
+     <p><strong>⚠️ Все лекарственные препараты, их свойства и эффекты в игре являются вымышленными и используются в художественных целях.</strong></p>
                         <p style="margin-top:12px; font-size:0.9rem; color:#5a4a32;">Управление: лечите пациентов, перетаскивая препараты или нажимая на них.</p>
                         <p style="font-size:0.9rem; color:#5a4a32;"><kbd>Пробел</kbd> — пауза, <kbd>Esc</kbd> — закрыть окна</p>
                         <p style="font-size:0.9rem; color:#5a4a32;"><kbd>Ctrl+S</kbd> — сохранить, <kbd>Ctrl+O</kbd> — загрузить</p>
                     </div>
+
                     <button class="info-close" id="infoCloseBtn">Закрыть</button>
                 </div>
             </div>
@@ -1437,14 +1534,14 @@ let nextRestockTime = 0;
     },
     fightChance: 0.001,      // Минимальный шанс драк
     spawnInterval: 15,       // Медленное появление пациентов
-    drugPrice: 3,            // Цена глицина
-    drugLimit: 50,           // Много глицина
+    drugPrice: 3,            // Цена глаттина
+    drugLimit: 50,           // Много глаттина
     taskTarget: 3,           // Нужно вылечить 3 пациентов
     maxPatients: 4,          // Не больше 4 пациентов одновременно
     healthRange: [75, 95],   // Пациенты приходят с хорошим здоровьем
     unlocked: true, 
     requiredLevel: null, 
-    availableDrugs: ['глицин'],  // ← ТОЛЬКО ГЛИЦИН!
+    availableDrugs: ['глаттин'],  // ← ТОЛЬКО глаттин!
     diseaseCount: 6,              // 6 разных болезней
     staffLimits: { orderlies2: 0, nurses: 0, orderlies: 0, ect: 0 },
     theme: 'bechtereva' 
@@ -1470,7 +1567,7 @@ let nextRestockTime = 0;
         healthRange: [55, 85], 
         unlocked: false, 
         requiredLevel: 'bechtereva', 
-        availableDrugs: ['глицин', 'флуоксетин', 'кветиапин'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'кветиарил'], 
         diseaseCount: 10, 
         staffLimits: { orderlies2: 0, nurses: 0, orderlies: 0, ect: 0 },
         theme: 'alekseeva' 
@@ -1499,7 +1596,7 @@ let nextRestockTime = 0;
         healthRange: [55, 85], 
         unlocked: false, 
         requiredLevel: 'alekseeva', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин'], 
         diseaseCount: 12, 
         staffLimits: { orderlies2: 2, nurses: 0, orderlies: 0, ect: 0 },
         theme: 'korsakov' 
@@ -1525,7 +1622,7 @@ let nextRestockTime = 0;
         healthRange: [50, 80], 
         unlocked: false, 
         requiredLevel: 'korsakov', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин'], 
         diseaseCount: 20, 
         staffLimits: { orderlies2: 3, nurses: 2, orderlies: 0, ect: 0 },
         theme: 'gannushkina' 
@@ -1551,7 +1648,7 @@ let nextRestockTime = 0;
         healthRange: [45, 75], 
         unlocked: false, 
         requiredLevel: 'gannushkina', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин'], 
         diseaseCount: 25, 
         staffLimits: { orderlies2: 4, nurses: 3, orderlies: 2, ect: 0 },
         theme: 'osipova' 
@@ -1582,7 +1679,7 @@ let nextRestockTime = 0;
         healthRange: [40, 70], 
         unlocked: false, 
         requiredLevel: 'osipova', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир'], 
         diseaseCount: 40, 
         staffLimits: { orderlies2: 5, nurses: 4, orderlies: 3, ect: 0 },
         theme: 'kashchenko' 
@@ -1610,7 +1707,7 @@ let nextRestockTime = 0;
         healthRange: [30, 60], 
         unlocked: false, 
         requiredLevel: 'kashchenko', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 50, 
         staffLimits: { orderlies2: 7, nurses: 6, orderlies: 4, ect: 1 },
         theme: 'skvortsova' 
@@ -1636,7 +1733,7 @@ let nextRestockTime = 0;
         healthRange: [15, 45], 
         unlocked: false, 
         requiredLevel: 'skvortsova-stepanova', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 65, 
         staffLimits: { orderlies2: 8, nurses: 7, orderlies: 5, ect: 1 },
         theme: 'kandinsky' 
@@ -1665,7 +1762,7 @@ let nextRestockTime = 0;
         healthRange: [15, 30], 
         unlocked: false, 
         requiredLevel: 'kandinsky', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 75, 
         staffLimits: { orderlies2: 10, nurses: 8, orderlies: 0, ect: 1 },
         theme: 'arsenalnaya' 
@@ -1693,7 +1790,7 @@ let nextRestockTime = 0;
         healthRange: [13, 30], 
         unlocked: false, 
         requiredLevel: 'arsenalnaya', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 75, 
         staffLimits: { orderlies2: 13, nurses: 0, orderlies: 0, ect: 0 },
         theme: 'sosnovy_bor' 
@@ -1721,7 +1818,7 @@ let nextRestockTime = 0;
         healthRange: [15, 45], 
         unlocked: false, 
         requiredLevel: 'sosnovy_bor', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 30, 
         staffLimits: { orderlies2: 5, nurses: 5, orderlies: 5, ect: 1 },
         theme: 'amur' 
@@ -1750,7 +1847,7 @@ let nextRestockTime = 0;
         healthRange: [10, 30], 
         unlocked: false, 
         requiredLevel: 'amur', 
-        availableDrugs: ['глицин', 'флуоксетин', 'аминазин', 'кветиапин', 'оланзапин', 'галоперидол', 'рисперидон', 'клозапин', 'седалит', 'циклодол'], 
+        availableDrugs: ['глаттин', 'флуоксарин', 'аминальзин', 'кветиарил', 'оланзерин', 'галоперин', 'рисперон', 'клозарил', 'седамир', 'циклодам'], 
         diseaseCount: 75, 
         staffLimits: { orderlies2: 15, nurses: 0, orderlies: 0, ect: 1 },
         theme: 'kpbstin' 
@@ -1761,19 +1858,17 @@ let nextRestockTime = 0;
 
 // 1. СНАЧАЛА ALL_DRUGS
 const ALL_DRUGS = [
-    { name: 'глицин', color: '#90a4ae', sideEffect: 'минимальные', price: 3, rarity: 1 },
-    { name: 'флуоксетин', color: '#ce93d8', sideEffect: 'бессонница, тревожность', price: 7, rarity: 1 },
-    { name: 'кветиапин', color: '#4dd0e1', sideEffect: 'сонливость, сухость во рту', price: 10, rarity: 1 },
-    { name: 'аминазин', color: '#e57373', sideEffect: 'сонливость, сухость во рту', price: 5, rarity: 1 },
-    { name: 'оланзапин', color: '#81c784', sideEffect: 'увеличение веса, седация', price: 15, rarity: 2 },
-    { name: 'галоперидол', color: '#64b5f6', sideEffect: 'экстрапирамидные расстройства', price: 12, rarity: 2 },
-    { name: 'рисперидон', color: '#ef9a9a', sideEffect: 'увеличение пролактина', price: 18, rarity: 2 },
-    { name: 'клозапин', color: '#ffb74d', sideEffect: 'агранулоцитоз, седация', price: 25, rarity: 3 },
-    { name: 'седалит', color: '#ff8a65', sideEffect: 'угнетение ЦНС, привыкание', price: 8, rarity: 3 },
-    { name: 'циклодол', color: '#aed581', sideEffect: 'запор, сухость во рту', price: 6, rarity: 3 }
+    { name: 'глаттин', color: '#90a4ae', sideEffect: 'минимальные', price: 3, rarity: 1 },
+    { name: 'флуоксарин', color: '#ce93d8', sideEffect: 'бессонница, тревожность', price: 7, rarity: 1 },
+    { name: 'кветиарил', color: '#4dd0e1', sideEffect: 'сонливость, сухость во рту', price: 10, rarity: 1 },
+    { name: 'аминальзин', color: '#e57373', sideEffect: 'сонливость, сухость во рту', price: 5, rarity: 1 },
+    { name: 'оланзерин', color: '#81c784', sideEffect: 'увеличение веса, седация', price: 15, rarity: 2 },
+    { name: 'галоперин', color: '#64b5f6', sideEffect: 'экстрапирамидные расстройства', price: 12, rarity: 2 },
+    { name: 'рисперон', color: '#ef9a9a', sideEffect: 'увеличение пролактина', price: 18, rarity: 2 },
+    { name: 'клозарил', color: '#ffb74d', sideEffect: 'агранулоцитоз, седация', price: 25, rarity: 3 },
+    { name: 'седамир', color: '#ff8a65', sideEffect: 'угнетение ЦНС, привыкание', price: 8, rarity: 3 },
+    { name: 'циклодам', color: '#aed581', sideEffect: 'запор, сухость во рту', price: 6, rarity: 3 }
 ];
-
-
             // ТЕХНОЛОГИИ
             const TECH_TREE = [
                 { id: 'tech_psychopharmacology', name: 'Психофармакология', desc: '+15% эффективность всех препаратов', cost: 15, prereq: [], effect: 'drug_boost', value: 0.15 },
@@ -1781,7 +1876,7 @@ const ALL_DRUGS = [
                 { id: 'tech_psychotherapy', name: 'Психотерапия', desc: 'Пациенты восстанавливаются на 20% быстрее', cost: 25, prereq: [], effect: 'heal_speed', value: 0.2 },
                 { id: 'tech_neurobiology', name: 'Нейробиология', desc: 'Уменьшение побочных эффектов на 30%', cost: 20, prereq: [], effect: 'side_effect_reduction', value: 0.3 },
                 { id: 'tech_ethics', name: 'Медицинская этика', desc: 'Пациенты реже вступают в конфликты', cost: 20, prereq: [], effect: 'fight_reduction', value: 0.3 },
-                { id: 'tech_ssri', name: 'СИОЗС', desc: 'Увеличивает эффективность флуоксетина на 25% и ускоряет его приток на 30%', cost: 30, prereq: ['tech_psychopharmacology'], effect: 'ssri_boost', value: 0.25 },
+                { id: 'tech_ssri', name: 'СИОЗС', desc: 'Увеличивает эффективность флуоксарина на 25% и ускоряет его приток на 30%', cost: 30, prereq: ['tech_psychopharmacology'], effect: 'ssri_boost', value: 0.25 },
                 { id: 'tech_wechsler', name: 'Тест Векслера', desc: 'Увеличивает скорость лечения расстройств умственной отсталости и деменции', cost: 40, prereq: ['tech_clinical_diagnosis'], effect: 'wechsler_boost', value: 0.2 },
                 { id: 'tech_dopamine', name: 'Дофаминовая теория', desc: 'Уменьшает скорость падения здоровья людей с шизофренией на 70%', cost: 55, prereq: ['tech_neurobiology'], effect: 'dopamine_boost', value: 0.7 },
                 { id: 'tech_polypharmacy', name: 'Полипрагмазия', desc: 'Ускоряет приток препаратов на 30%', cost: 50, prereq: ['tech_psychopharmacology'], effect: 'polypharmacy_boost', value: 0.3 },
@@ -1814,100 +1909,100 @@ const ALL_DRUGS = [
             // === ВСЕ БОЛЕЗНИ (МКБ-10) ===
            const ALL_DISEASES = [
     // === ДЕМЕНЦИИ (F00-F03) ===
-    { code: 'F00.0', name: 'Болезнь Альцгеймера (раннее начало)', treat: ['аминазин', 'кветиапин'], weight: 3, category: 'dementia', severity: 4, gender: 'neutral' },
-    { code: 'F00.1', name: 'Болезнь Альцгеймера (позднее начало)', treat: ['аминазин', 'кветиапин'], weight: 4, category: 'dementia', severity: 4, gender: 'neutral' },
-    { code: 'F01.0', name: 'Сосудистая деменция (острая)', treat: ['аминазин', 'глицин'], weight: 4, category: 'dementia', severity: 3, gender: 'neutral' },
-    { code: 'F01.1', name: 'Сосудистая деменция (мультиинфарктная)', treat: ['аминазин', 'глицин'], weight: 5, category: 'dementia', severity: 4, gender: 'neutral' },
-    { code: 'F03', name: 'Деменция неуточнённая', treat: ['аминазин', 'кветиапин'], weight: 4, category: 'dementia', severity: 3, gender: 'neutral' },
+    { code: 'F00.0', name: 'Болезнь Альцгеймера (раннее начало)', treat: ['аминальзин', 'кветиарил'], weight: 3, category: 'dementia', severity: 4, gender: 'neutral' },
+    { code: 'F00.1', name: 'Болезнь Альцгеймера (позднее начало)', treat: ['аминальзин', 'кветиарил'], weight: 4, category: 'dementia', severity: 4, gender: 'neutral' },
+    { code: 'F01.0', name: 'Сосудистая деменция (острая)', treat: ['аминальзин', 'глаттин'], weight: 4, category: 'dementia', severity: 3, gender: 'neutral' },
+    { code: 'F01.1', name: 'Сосудистая деменция (мультиинфарктная)', treat: ['аминальзин', 'глаттин'], weight: 5, category: 'dementia', severity: 4, gender: 'neutral' },
+    { code: 'F03', name: 'Деменция неуточнённая', treat: ['аминальзин', 'кветиарил'], weight: 4, category: 'dementia', severity: 3, gender: 'neutral' },
 
     // === БРЕДОВЫЕ РАССТРОЙСТВА ===
-    { code: 'F22.89', name: 'Клиническая ликантропия', treat: ['галоперидол', 'рисперидон', 'оланзапин', 'кветиапин'], weight: 2, category: 'delusional', severity: 4, gender: 'neutral' },
-    { code: 'F22.8', name: 'Синдром Ренфилда', treat: ['клозапин', 'галоперидол', 'рисперидон', 'кветиапин'], weight: 1, category: 'delusional', severity: 5, gender: 'neutral' },
-    { code: 'F22.0', name: 'Бредовое расстройство (параноидное)', treat: ['галоперидол', 'рисперидон', 'оланзапин'], weight: 4, category: 'delusional', severity: 3, gender: 'male' },
+    { code: 'F22.89', name: 'Клиническая ликантропия', treat: ['галоперин', 'рисперон', 'оланзерин', 'кветиарил'], weight: 2, category: 'delusional', severity: 4, gender: 'neutral' },
+    { code: 'F22.8', name: 'Синдром Ренфилда', treat: ['клозарил', 'галоперин', 'рисперон', 'кветиарил'], weight: 1, category: 'delusional', severity: 5, gender: 'neutral' },
+    { code: 'F22.0', name: 'Бредовое расстройство (параноидное)', treat: ['галоперин', 'рисперон', 'оланзерин'], weight: 4, category: 'delusional', severity: 3, gender: 'male' },
 
     // === ДЕПРЕССИЯ ===
-    { code: 'F32.0', name: 'Лёгкий депрессивный эпизод', treat: ['флуоксетин', 'глицин'], weight: 6, category: 'depression', severity: 1, gender: 'neutral' },
-    { code: 'F32.1', name: 'Умеренный депрессивный эпизод', treat: ['флуоксетин', 'кветиапин'], weight: 5, category: 'depression', severity: 2, gender: 'neutral' },
-    { code: 'F32.2', name: 'Тяжёлый депрессивный эпизод', treat: ['флуоксетин', 'кветиапин', 'оланзапин'], weight: 4, category: 'depression', severity: 3, gender: 'neutral' },
-    { code: 'F33.0', name: 'Рекуррентное депрессивное (лёгкое)', treat: ['флуоксетин', 'глицин'], weight: 4, category: 'depression', severity: 1, gender: 'neutral' },
-    { code: 'F33.1', name: 'Рекуррентное депрессивное (умеренное)', treat: ['флуоксетин', 'кветиапин'], weight: 4, category: 'depression', severity: 2, gender: 'neutral' },
-    { code: 'F34.1', name: 'Дистимия', treat: ['флуоксетин', 'глицин'], weight: 4, category: 'depression', severity: 1, gender: 'neutral' },
+    { code: 'F32.0', name: 'Лёгкий депрессивный эпизод', treat: ['флуоксарин', 'глаттин'], weight: 6, category: 'depression', severity: 1, gender: 'neutral' },
+    { code: 'F32.1', name: 'Умеренный депрессивный эпизод', treat: ['флуоксарин', 'кветиарил'], weight: 5, category: 'depression', severity: 2, gender: 'neutral' },
+    { code: 'F32.2', name: 'Тяжёлый депрессивный эпизод', treat: ['флуоксарин', 'кветиарил', 'оланзерин'], weight: 4, category: 'depression', severity: 3, gender: 'neutral' },
+    { code: 'F33.0', name: 'Рекуррентное депрессивное (лёгкое)', treat: ['флуоксарин', 'глаттин'], weight: 4, category: 'depression', severity: 1, gender: 'neutral' },
+    { code: 'F33.1', name: 'Рекуррентное депрессивное (умеренное)', treat: ['флуоксарин', 'кветиарил'], weight: 4, category: 'depression', severity: 2, gender: 'neutral' },
+    { code: 'F34.1', name: 'Дистимия', treat: ['флуоксарин', 'глаттин'], weight: 4, category: 'depression', severity: 1, gender: 'neutral' },
 
     // === ТРЕВОЖНЫЕ РАССТРОЙСТВА ===
-    { code: 'F40.0', name: 'Агорафобия', treat: ['аминазин', 'кветиапин'], weight: 4, category: 'anxiety', severity: 2, gender: 'neutral' },
-    { code: 'F40.1', name: 'Социофобия', treat: ['аминазин', 'кветиапин'], weight: 5, category: 'anxiety', severity: 2, gender: 'neutral' },
-    { code: 'F41.0', name: 'Паническое расстройство', treat: ['флуоксетин', 'кветиапин'], weight: 5, category: 'anxiety', severity: 2, gender: 'neutral' },
-    { code: 'F41.1', name: 'Генерализованное тревожное', treat: ['флуоксетин', 'кветиапин'], weight: 6, category: 'anxiety', severity: 2, gender: 'neutral' },
-    { code: 'F43.0', name: 'Острая реакция на стресс', treat: ['аминазин', 'кветиапин'], weight: 4, category: 'anxiety', severity: 2, gender: 'neutral' },
-    { code: 'F43.1', name: 'ПТСР', treat: ['флуоксетин', 'кветиапин'], weight: 4, category: 'anxiety', severity: 3, gender: 'neutral' },
+    { code: 'F40.0', name: 'Агорафобия', treat: ['аминальзин', 'кветиарил'], weight: 4, category: 'anxiety', severity: 2, gender: 'neutral' },
+    { code: 'F40.1', name: 'Социофобия', treat: ['аминальзин', 'кветиарил'], weight: 5, category: 'anxiety', severity: 2, gender: 'neutral' },
+    { code: 'F41.0', name: 'Паническое расстройство', treat: ['флуоксарин', 'кветиарил'], weight: 5, category: 'anxiety', severity: 2, gender: 'neutral' },
+    { code: 'F41.1', name: 'Генерализованное тревожное', treat: ['флуоксарин', 'кветиарил'], weight: 6, category: 'anxiety', severity: 2, gender: 'neutral' },
+    { code: 'F43.0', name: 'Острая реакция на стресс', treat: ['аминальзин', 'кветиарил'], weight: 4, category: 'anxiety', severity: 2, gender: 'neutral' },
+    { code: 'F43.1', name: 'ПТСР', treat: ['флуоксарин', 'кветиарил'], weight: 4, category: 'anxiety', severity: 3, gender: 'neutral' },
 
     // === НЕВРОЗЫ ===
-    { code: 'F30.1', name: 'Мания без психотических симптомов', treat: ['галоперидол', 'кветиапин'], weight: 3, category: 'neurosis', severity: 3, gender: 'neutral' },
-    { code: 'F31.0', name: 'Биполярное I (гипомания)', treat: ['кветиапин', 'оланзапин'], weight: 3, category: 'neurosis', severity: 3, gender: 'neutral' },
-    { code: 'F31.7', name: 'Биполярное I (ремиссия)', treat: ['кветиапин', 'флуоксетин'], weight: 3, category: 'neurosis', severity: 2, gender: 'neutral' },
-    { code: 'F34.0', name: 'Циклотимия', treat: ['кветиапин', 'оланзапин'], weight: 3, category: 'neurosis', severity: 2, gender: 'neutral' },
-    { code: 'F42.0', name: 'ОКР (обсессии)', treat: ['клозапин', 'флуоксетин', 'рисперидон'], weight: 4, category: 'neurosis', severity: 3, gender: 'neutral' },
-    { code: 'F42.1', name: 'ОКР (компульсии)', treat: ['клозапин', 'флуоксетин', 'рисперидон'], weight: 4, category: 'neurosis', severity: 3, gender: 'neutral' },
-    { code: 'F48.0', name: 'Неврастения', treat: ['флуоксетин', 'глицин'], weight: 4, category: 'neurosis', severity: 2, gender: 'neutral' },
+    { code: 'F30.1', name: 'Мания без психотических симптомов', treat: ['галоперин', 'кветиарил'], weight: 3, category: 'neurosis', severity: 3, gender: 'neutral' },
+    { code: 'F31.0', name: 'Биполярное I (гипомания)', treat: ['кветиарил', 'оланзерин'], weight: 3, category: 'neurosis', severity: 3, gender: 'neutral' },
+    { code: 'F31.7', name: 'Биполярное I (ремиссия)', treat: ['кветиарил', 'флуоксарин'], weight: 3, category: 'neurosis', severity: 2, gender: 'neutral' },
+    { code: 'F34.0', name: 'Циклотимия', treat: ['кветиарил', 'оланзерин'], weight: 3, category: 'neurosis', severity: 2, gender: 'neutral' },
+    { code: 'F42.0', name: 'ОКР (обсессии)', treat: ['клозарил', 'флуоксарин', 'рисперон'], weight: 4, category: 'neurosis', severity: 3, gender: 'neutral' },
+    { code: 'F42.1', name: 'ОКР (компульсии)', treat: ['клозарил', 'флуоксарин', 'рисперон'], weight: 4, category: 'neurosis', severity: 3, gender: 'neutral' },
+    { code: 'F48.0', name: 'Неврастения', treat: ['флуоксарин', 'глаттин'], weight: 4, category: 'neurosis', severity: 2, gender: 'neutral' },
 
     // === ПСИХОСОМАТИКА ===
-    { code: 'F50.0', name: 'Нервная анорексия', treat: ['флуоксетин', 'глицин'], weight: 6, category: 'psychosomatic', severity: 3, gender: 'female' },
-    { code: 'F50.2', name: 'Булимия', treat: ['флуоксетин', 'кветиапин'], weight: 6, category: 'psychosomatic', severity: 2, gender: 'female' },
-    { code: 'F45.0', name: 'Соматизированное расстройство', treat: ['флуоксетин', 'кветиапин'], weight: 3, category: 'psychosomatic', severity: 2, gender: 'neutral' },
-    { code: 'F45.1', name: 'Ипохондрическое расстройство', treat: ['флуоксетин', 'кветиапин'], weight: 3, category: 'psychosomatic', severity: 2, gender: 'neutral' },
-    { code: 'F51.0', name: 'Бессонница неорганическая', treat: ['седалит', 'кветиапин'], weight: 4, category: 'psychosomatic', severity: 1, gender: 'neutral' },
+    { code: 'F50.0', name: 'Нервная анорексия', treat: ['флуоксарин', 'глаттин'], weight: 6, category: 'psychosomatic', severity: 3, gender: 'female' },
+    { code: 'F50.2', name: 'Булимия', treat: ['флуоксарин', 'кветиарил'], weight: 6, category: 'psychosomatic', severity: 2, gender: 'female' },
+    { code: 'F45.0', name: 'Соматизированное расстройство', treat: ['флуоксарин', 'кветиарил'], weight: 3, category: 'psychosomatic', severity: 2, gender: 'neutral' },
+    { code: 'F45.1', name: 'Ипохондрическое расстройство', treat: ['флуоксарин', 'кветиарил'], weight: 3, category: 'psychosomatic', severity: 2, gender: 'neutral' },
+    { code: 'F51.0', name: 'Бессонница неорганическая', treat: ['седамир', 'кветиарил'], weight: 4, category: 'psychosomatic', severity: 1, gender: 'neutral' },
 
     // === РАССТРОЙСТВА ЛИЧНОСТИ ===
-    { code: 'F60.3', name: 'Пограничное РЛ', treat: ['кветиапин', 'оланзапин'], weight: 5, category: 'personality', severity: 5, gender: 'female' },
-    { code: 'F60.0', name: 'Параноидное РЛ', treat: ['галоперидол', 'рисперидон', 'кветиапин'], weight: 4, category: 'personality', severity: 4, gender: 'male' },
-    { code: 'F60.1', name: 'Шизоидное РЛ', treat: ['оланзапин', 'рисперидон', 'кветиапин'], weight: 3, category: 'personality', severity: 3, gender: 'male' },
-    { code: 'F60.5', name: 'Ананкастное РЛ', treat: ['клозапин', 'флуоксетин', 'рисперидон'], weight: 3, category: 'personality', severity: 3, gender: 'neutral' },
-    { code: 'F60.6', name: 'Тревожное РЛ', treat: ['флуоксетин', 'кветиапин'], weight: 3, category: 'personality', severity: 3, gender: 'neutral' },
+    { code: 'F60.3', name: 'Пограничное РЛ', treat: ['кветиарил', 'оланзерин'], weight: 5, category: 'personality', severity: 5, gender: 'female' },
+    { code: 'F60.0', name: 'Параноидное РЛ', treat: ['галоперин', 'рисперон', 'кветиарил'], weight: 4, category: 'personality', severity: 4, gender: 'male' },
+    { code: 'F60.1', name: 'Шизоидное РЛ', treat: ['оланзерин', 'рисперон', 'кветиарил'], weight: 3, category: 'personality', severity: 3, gender: 'male' },
+    { code: 'F60.5', name: 'Ананкастное РЛ', treat: ['клозарил', 'флуоксарин', 'рисперон'], weight: 3, category: 'personality', severity: 3, gender: 'neutral' },
+    { code: 'F60.6', name: 'Тревожное РЛ', treat: ['флуоксарин', 'кветиарил'], weight: 3, category: 'personality', severity: 3, gender: 'neutral' },
 
     // === ШИЗОФРЕНИЯ ===
-    { code: 'F20.0', name: 'Параноидная шизофрения', treat: ['галоперидол', 'оланзапин', 'рисперидон'], weight: 5, category: 'schizophrenia', severity: 4, gender: 'male' },
-    { code: 'F20.1', name: 'Гебефреническая шизофрения', treat: ['клозапин', 'оланзапин', 'кветиапин'], weight: 3, category: 'schizophrenia', severity: 5, gender: 'male' },
-    { code: 'F20.2', name: 'Кататоническая шизофрения', treat: ['галоперидол', 'рисперидон', 'оланзапин', 'кветиапин'], weight: 3, category: 'schizophrenia', severity: 5, gender: 'neutral' },
-    { code: 'F20.3', name: 'Недифференцированная шизофрения', treat: ['клозапин', 'галоперидол', 'кветиапин'], weight: 3, category: 'schizophrenia', severity: 4, gender: 'neutral' },
-    { code: 'F20.6', name: 'Простая шизофрения', treat: ['галоперидол', 'рисперидон', 'кветиапин', 'оланзапин'], weight: 4, category: 'schizophrenia', severity: 3, gender: 'neutral' },
-    { code: 'F25.0', name: 'Шизоаффективное (маниакальный)', treat: ['клозапин', 'галоперидол', 'кветиапин'], weight: 3, category: 'schizophrenia', severity: 4, gender: 'neutral' },
+    { code: 'F20.0', name: 'Параноидная шизофрения', treat: ['галоперин', 'оланзерин', 'рисперон'], weight: 5, category: 'schizophrenia', severity: 4, gender: 'male' },
+    { code: 'F20.1', name: 'Гебефреническая шизофрения', treat: ['клозарил', 'оланзерин', 'кветиарил'], weight: 3, category: 'schizophrenia', severity: 5, gender: 'male' },
+    { code: 'F20.2', name: 'Кататоническая шизофрения', treat: ['галоперин', 'рисперон', 'оланзерин', 'кветиарил'], weight: 3, category: 'schizophrenia', severity: 5, gender: 'neutral' },
+    { code: 'F20.3', name: 'Недифференцированная шизофрения', treat: ['клозарил', 'галоперин', 'кветиарил'], weight: 3, category: 'schizophrenia', severity: 4, gender: 'neutral' },
+    { code: 'F20.6', name: 'Простая шизофрения', treat: ['галоперин', 'рисперон', 'кветиарил', 'оланзерин'], weight: 4, category: 'schizophrenia', severity: 3, gender: 'neutral' },
+    { code: 'F25.0', name: 'Шизоаффективное (маниакальный)', treat: ['клозарил', 'галоперин', 'кветиарил'], weight: 3, category: 'schizophrenia', severity: 4, gender: 'neutral' },
 
     // === БРЕДОВЫЕ (дополнительные) ===
-    { code: 'F23.0', name: 'Острое полиморфное психотическое', treat: ['галоперидол', 'оланзапин', 'кветиапин'], weight: 2, category: 'delusional', severity: 4, gender: 'neutral' },
-    { code: 'F24', name: 'Индуцированное бредовое расстройство', treat: ['галоперидол', 'рисперидон', 'кветиапин'], weight: 1, category: 'delusional', severity: 3, gender: 'neutral' },
+    { code: 'F23.0', name: 'Острое полиморфное психотическое', treat: ['галоперин', 'оланзерин', 'кветиарил'], weight: 2, category: 'delusional', severity: 4, gender: 'neutral' },
+    { code: 'F24', name: 'Индуцированное бредовое расстройство', treat: ['галоперин', 'рисперон', 'кветиарил'], weight: 1, category: 'delusional', severity: 3, gender: 'neutral' },
 
     // === ШИЗОТИПИЧЕСКИЕ ===
-    { code: 'F21', name: 'Шизотипическое расстройство', treat: ['галоперидол', 'рисперидон', 'кветиапин'], weight: 2, category: 'schizotypal', severity: 3, gender: 'neutral' },
+    { code: 'F21', name: 'Шизотипическое расстройство', treat: ['галоперин', 'рисперон', 'кветиарил'], weight: 2, category: 'schizotypal', severity: 3, gender: 'neutral' },
 
     // === РАССТРОЙСТВА РАЗВИТИЯ ===
-    { code: 'F84.0', name: 'Аутизм', treat: ['рисперидон', 'оланзапин', 'кветиапин'], weight: 2, category: 'developmental', severity: 4, gender: 'neutral' },
-    { code: 'F84.3', name: 'Синдром Аспергера', treat: ['рисперидон', 'оланзапин', 'кветиапин'], weight: 2, category: 'developmental', severity: 3, gender: 'neutral' },
-    { code: 'F90.0', name: 'СДВГ (невнимательность)', treat: ['аминазин', 'кветиапин'], weight: 4, category: 'developmental', severity: 2, gender: 'neutral' },
-    { code: 'F95.2', name: 'Синдром Туретта', treat: ['галоперидол', 'рисперидон', 'кветиапин'], weight: 1, category: 'developmental', severity: 4, gender: 'neutral' },
+    { code: 'F84.0', name: 'Аутизм', treat: ['рисперон', 'оланзерин', 'кветиарил'], weight: 2, category: 'developmental', severity: 4, gender: 'neutral' },
+    { code: 'F84.3', name: 'Синдром Аспергера', treat: ['рисперон', 'оланзерин', 'кветиарил'], weight: 2, category: 'developmental', severity: 3, gender: 'neutral' },
+    { code: 'F90.0', name: 'СДВГ (невнимательность)', treat: ['аминальзин', 'кветиарил'], weight: 4, category: 'developmental', severity: 2, gender: 'neutral' },
+    { code: 'F95.2', name: 'Синдром Туретта', treat: ['галоперин', 'рисперон', 'кветиарил'], weight: 1, category: 'developmental', severity: 4, gender: 'neutral' },
 
     // ============================================================
     // === ВСЕ СЕКСУАЛЬНЫЕ РАССТРОЙСТВА (F52, F64, F65) ===
     // ============================================================
 
     // === F52 — СЕКСУАЛЬНЫЕ ДИСФУНКЦИИ ===
-    { code: 'F52.0', name: 'Отсутствие полового влечения', treat: ['глицин', 'флуоксетин', 'кветиапин'], weight: 5, category: 'sexual', severity: 2, gender: 'neutral' },
-    { code: 'F52.1', name: 'Сексуальное отвращение', treat: ['глицин', 'флуоксетин', 'кветиапин'], weight: 4, category: 'sexual', severity: 2, gender: 'neutral' },
-    { code: 'F52.2', name: 'Импотенция / фригидность', treat: ['глицин', 'кветиапин', 'седалит'], weight: 5, category: 'sexual', severity: 3, gender: 'neutral' },
-    { code: 'F52.3', name: 'Аноргазмия', treat: ['глицин', 'флуоксетин', 'кветиапин'], weight: 4, category: 'sexual', severity: 2, gender: 'neutral' },
-    { code: 'F52.4', name: 'Преждевременная эякуляция', treat: ['седалит', 'глицин', 'кветиапин'], weight: 4, category: 'sexual', severity: 1, gender: 'male' },
-    { code: 'F52.5', name: 'Вагинизм', treat: ['седалит', 'глицин', 'кветиапин'], weight: 3, category: 'sexual', severity: 2, gender: 'female' },
-    { code: 'F52.6', name: 'Диспареуния', treat: ['седалит', 'глицин', 'кветиапин'], weight: 3, category: 'sexual', severity: 2, gender: 'female' },
-    { code: 'F52.7', name: 'Гиперсексуальность', treat: ['аминазин', 'галоперидол', 'кветиапин'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
-    { code: 'F52.8', name: 'Другие сексуальные дисфункции', treat: ['глицин', 'флуоксетин', 'кветиапин'], weight: 3, category: 'sexual', severity: 2, gender: 'neutral' },
-    { code: 'F52.9', name: 'Сексуальная дисфункция неуточнённая', treat: ['глицин', 'флуоксетин', 'кветиапин'], weight: 3, category: 'sexual', severity: 2, gender: 'neutral' },
+    { code: 'F52.0', name: 'Отсутствие полового влечения', treat: ['глаттин', 'флуоксарин', 'кветиарил'], weight: 5, category: 'sexual', severity: 2, gender: 'neutral' },
+    { code: 'F52.1', name: 'Сексуальное отвращение', treat: ['глаттин', 'флуоксарин', 'кветиарил'], weight: 4, category: 'sexual', severity: 2, gender: 'neutral' },
+    { code: 'F52.2', name: 'Импотенция / фригидность', treat: ['глаттин', 'кветиарил', 'седамир'], weight: 5, category: 'sexual', severity: 3, gender: 'neutral' },
+    { code: 'F52.3', name: 'Аноргазмия', treat: ['глаттин', 'флуоксарин', 'кветиарил'], weight: 4, category: 'sexual', severity: 2, gender: 'neutral' },
+    { code: 'F52.4', name: 'Преждевременная эякуляция', treat: ['седамир', 'глаттин', 'кветиарил'], weight: 4, category: 'sexual', severity: 1, gender: 'male' },
+    { code: 'F52.5', name: 'Вагинизм', treat: ['седамир', 'глаттин', 'кветиарил'], weight: 3, category: 'sexual', severity: 2, gender: 'female' },
+    { code: 'F52.6', name: 'Диспареуния', treat: ['седамир', 'глаттин', 'кветиарил'], weight: 3, category: 'sexual', severity: 2, gender: 'female' },
+    { code: 'F52.7', name: 'Гиперсексуальность', treat: ['аминальзин', 'галоперин', 'кветиарил'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
+    { code: 'F52.8', name: 'Другие сексуальные дисфункции', treat: ['глаттин', 'флуоксарин', 'кветиарил'], weight: 3, category: 'sexual', severity: 2, gender: 'neutral' },
+    { code: 'F52.9', name: 'Сексуальная дисфункция неуточнённая', treat: ['глаттин', 'флуоксарин', 'кветиарил'], weight: 3, category: 'sexual', severity: 2, gender: 'neutral' },
 
   
-    { code: 'F65.2', name: 'Эксгибиционизм', treat: ['аминазин', 'галоперидол', 'кветиапин'], weight: 2, category: 'sexual', severity: 4, gender: 'male' },
-    { code: 'F65.3', name: 'Вуайеризм', treat: ['аминазин', 'галоперидол', 'кветиапин'], weight: 2, category: 'sexual', severity: 3, gender: 'male' },
+    { code: 'F65.2', name: 'Эксгибиционизм', treat: ['аминальзин', 'галоперин', 'кветиарил'], weight: 2, category: 'sexual', severity: 4, gender: 'male' },
+    { code: 'F65.3', name: 'Вуайеризм', treat: ['аминальзин', 'галоперин', 'кветиарил'], weight: 2, category: 'sexual', severity: 3, gender: 'male' },
   
    
-    { code: 'F65.8', name: 'Другие парафилии', treat: ['аминазин', 'галоперидол', 'рисперидон'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
-    { code: 'F65.9', name: 'Парафилия неуточнённая', treat: ['аминазин', 'галоперидол', 'кветиапин'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
+    { code: 'F65.8', name: 'Другие парафилии', treat: ['аминальзин', 'галоперин', 'рисперон'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
+    { code: 'F65.9', name: 'Парафилия неуточнённая', treat: ['аминальзин', 'галоперин', 'кветиарил'], weight: 2, category: 'sexual', severity: 3, gender: 'neutral' },
 
 
 ];
@@ -1959,23 +2054,23 @@ const ALL_DRUGS = [
 
 
 
-switch (drugName){case "глицин":
+switch (drugName){case "глаттин":
 
 
 
 
         return 50;
-case "флуоксетин":
+case "флуоксарин":
 return 45
-case "кветиапин":
+case "кветиарил":
 return 40;
-case "аминазин":return 45
-case "оланзапин":return 30
-case "галоперидол":return 28
-case "рисперидон":return 25
-case "клозапин":return 15
-case "седалит":return 15
-case "циклодол":return 15
+case "аминальзин":return 45
+case "оланзерин":return 30
+case "галоперин":return 28
+case "рисперон":return 25
+case "клозарил":return 15
+case "седамир":return 15
+case "циклодам":return 15
 
    
    
@@ -2274,8 +2369,8 @@ function getDiseasesForAvailableDrugs(availableDrugs, count, categoryFilter) {
 
 
             function getAvailableDrugsForLevel(level) {
-                if (!level) return ['глицин'];
-                return level.availableDrugs || ['глицин'];
+                if (!level) return ['глаттин'];
+                return level.availableDrugs || ['глаттин'];
             }
 function getAvailableDiseasesForLevel(level) {
     if (!level) return ALL_DISEASES.slice(0, 5);
@@ -2315,7 +2410,7 @@ function getAvailableDiseasesForLevel(level) {
                     if (availableDrugs.includes(d.name)) {
                         const maxLimit = getDrugMaxLimit(d.name, level);
                         let count = Math.floor(maxLimit * (0.3 + Math.random() * 0.4));
-                        if (d.name === 'глицин') count = Math.floor(maxLimit * (0.5 + Math.random() * 0.3));
+                        if (d.name === 'глаттин') count = Math.floor(maxLimit * (0.5 + Math.random() * 0.3));
                         if (count < 1) count = 1;
                         if (count > maxLimit) count = maxLimit;
                         inv[d.name] = count;
@@ -2333,7 +2428,7 @@ function getAvailableDiseasesForLevel(level) {
                 if (drugsToRestock.length === 0) return;
                 
                 let ssriBoostActive = researchedTechs.includes('tech_ssri');
-                let ssriDrug = 'флуоксетин';
+                let ssriDrug = 'флуоксарин';
                 let ssriRestockChance = ssriBoostActive ? 0.5 : 0.2;
                 
                 let drugName;
@@ -2698,10 +2793,10 @@ function applyTechEffect(tech) {
                     if (techEffects.psychoanalysisBoost && (disease.category === 'personality' || disease.category === 'neurosis')) {
                         total += techEffects.psychoanalysisBoost;
                     }
-                    if (techEffects.ssriBoost && disease.treat.includes('флуоксетин')) {
+                    if (techEffects.ssriBoost && disease.treat.includes('флуоксарин')) {
                         total += techEffects.ssriBoost;
                     }
-                    if (techEffects.atypicalBoost && disease.treat.some(d => ['кветиапин', 'оланзапин', 'рисперидон', 'клозапин'].includes(d))) {
+                    if (techEffects.atypicalBoost && disease.treat.some(d => ['кветиарил', 'оланзерин', 'рисперон', 'клозарил'].includes(d))) {
                         total += techEffects.atypicalBoost;
                     }
                 }
@@ -3558,11 +3653,11 @@ let levelScore = 0;  // ← ДОБАВИТЬ ЭТУ СТРОКУ
             // === ОСТАЛЬНЫЕ ФУНКЦИИ ИГРЫ ===
             function injectPatient(patient) {
                 if (gameOver || !patient || patient.state === 'healed' || patient.isSleeping) return false;
-                if (!drugInventory['седалит'] || drugInventory['седалит'] <= 0) {
-                    statusMessage = '❌ Нет седалита! Купите в аптеке!';
+                if (!drugInventory['седамир'] || drugInventory['седамир'] <= 0) {
+                    statusMessage = '❌ Нет седамира! Купите в аптеке!';
                     return false;
                 }
-                drugInventory['седалит']--;
+                drugInventory['седамир']--;
                 patient.isInjectedSleep = true;
                 patient.injectedSleepTimer = 300;
                 patient.isSleeping = true;
@@ -5709,7 +5804,7 @@ function renderPsychopediaFull() {
         
         // === ФОРМИРУЕМ СПИСОК ПРЕПАРАТОВ С ЦВЕТНЫМИ ТОЧКАМИ ===
         let drugsHtml = '';
-        const availableDrugs = l.availableDrugs || ['глицин'];
+        const availableDrugs = l.availableDrugs || ['глаттин'];
         availableDrugs.forEach(drug => {
             const drugInfo = ALL_DRUGS.find(d => d.name === drug);
             const color = drugInfo ? drugInfo.color : '#888';
@@ -5851,10 +5946,10 @@ html += `</div>`;
     html += `<div class="item"><span class="label">Владимир Бехтерев</span><span class="value">русский психиатр, невропатолог, физиолог, психолог. Основоположник рефлексологии.</span></div>`;
     html += `<div class="item"><span class="label">Сергей Корсаков</span><span class="value">русский психиатр, описал корсаковский психоз (алкогольный полиневритический психоз).</span></div>`;
     html += `<div class="item"><span class="label">Пётр Ганнушкин</span><span class="value">русский психиатр, создатель учения о психопатиях (расстройствах личности).</span></div>`;
-    html += `<div class="item"><span class="label">Аминазин</span><span class="value">первый антипсихотик, открыт в 1950-х, произвел революцию в психиатрии.</span></div>`;
-    html += `<div class="item"><span class="label">Флуоксетин (Прозак)</span><span class="value">первый СИОЗС, один из самых известных антидепрессантов. Применяется с 1987 года.</span></div>`;
-    html += `<div class="item"><span class="label">Галоперидол</span><span class="value">мощный антипсихотик, используется при острых психозах с 1958 года.</span></div>`;
-    html += `<div class="item"><span class="label">Клозапин</span><span class="value">атипичный антипсихотик, эффективен при резистентной шизофрении, требует контроля крови из-за риска агранулоцитоза.</span></div>`;
+    html += `<div class="item"><span class="label">аминальзин</span><span class="value">первый антипсихотик, открыт в 1950-х, произвел революцию в психиатрии.</span></div>`;
+    html += `<div class="item"><span class="label">флуоксарин (Прозак)</span><span class="value">первый СИОЗС, один из самых известных антидепрессантов. Применяется с 1987 года.</span></div>`;
+    html += `<div class="item"><span class="label">галоперин</span><span class="value">мощный антипсихотик, используется при острых психозах с 1958 года.</span></div>`;
+    html += `<div class="item"><span class="label">клозарил</span><span class="value">атипичный антипсихотик, эффективен при резистентной шизофрении, требует контроля крови из-за риска агранулоцитоза.</span></div>`;
     html += `</div>`;
 
     // 9. Легенда
@@ -5997,10 +6092,13 @@ stopMusic()
                     }
                 });
             });
-
-            document.getElementById('menuAuthorBtn').addEventListener('click', function() {
-                showDialog('Об авторе', '👤 Автор: Eva Craft\n📍 Санкт-Петербург, Россия\n💻 Программист\n📧 mercury.nosov@gmail.com', ['OK']);
-            });
+document.getElementById('menuAuthorBtn').addEventListener('click', function() {
+    showDialog(
+        'Об авторе', 
+        '👤 Автор: Eva Craft\n📍 Санкт-Петербург, Россия\n💻 Программист\n📧 mercury.nosov@gmail.com\n\n⚠️ \nВсе лекарственные препараты, их свойства и эффекты в игре являются вымышленными и используются в художественных целях.', 
+        ['OK']
+    );
+});
 
             menuModal.addEventListener('click', function(e) {
                 if (e.target === menuModal) {
