@@ -6,7 +6,8 @@
 
 **По вопросам игры:** mercury.nosov@gmail.com
 
-**Игра на VK Play:** https://vkplay.ru/app/50277 
+**Игра на VK Play:** [https://vkplay.ru/app/50277 ](https://vkplay.ru/play/game/psychiatrist-50277/)
+
 **Ссылка на игру:** https://eva-craft.github.io/Psychiatrist/
 
 ---
