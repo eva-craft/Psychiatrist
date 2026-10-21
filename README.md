@@ -3,8 +3,10 @@
 > Симулятор управления психиатрической клиникой
 
 **Автор игры:** Eva Craft
+
 **По вопросам игры:** mercury.nosov@gmail.com
 
+**Игра на VK Play:** https://vkplay.ru/app/50277 
 **Ссылка на игру:** https://eva-craft.github.io/Psychiatrist/
 
 ---
