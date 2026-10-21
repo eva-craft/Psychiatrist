@@ -4,6 +4,7 @@
 
 **Автор игры:** Eva Craft
 **По вопросам игры:** mercury.nosov@gmail.com
+
 **Ссылка на игру:** https://eva-craft.github.io/Psychiatrist/
 
 ---
